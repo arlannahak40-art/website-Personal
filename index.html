@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>buku</title>
+</head>
+<body>
+ 
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --hijau: #1D9E75;
+  --hijau-muda: #E1F5EE;
+  --hijau-teks: #085041;
+  --biru: #185FA5;
+  --biru-muda: #E6F1FB;
+  --kuning: #BA7517;
+  --kuning-muda: #FAEEDA;
+  --merah: #A32D2D;
+  --merah-muda: #FCEBEB;
+  --abu: #5F5E5A;
+  --bg: var(--color-background-primary);
+  --bg2: var(--color-background-secondary);
+  --teks: var(--color-text-primary);
+  --teks2: var(--color-text-secondary);
+  --border: var(--color-border-tertiary);
+}
+
+.buku {
+  font-family: 'Nunito Sans', sans-serif;
+  width: 100%;
+  max-width: 1200px; /* biar lebar di laptop */
+  margin: auto;
+  padding: 15px;
+}
+
+.header {
+  background: linear-gradient(135deg, #085041 0%, #1D9E75 60%, #5DCAA5 100%);
+  border-radius: 16px;
+  padding: 28px 28px 22px;
+  color: white;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -20px; left: 40%;
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+}
+.header-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+.header h1 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+.header p { font-size: 13px; opacity: 0.85; }
+
+.nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--bg);
+  color: var(--teks2);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Nunito Sans', sans-serif;
+}
+.nav-btn:hover { border-color: var(--hijau); color: var(--hijau-teks); }
+.nav-btn.aktif {
+  background: var(--hijau);
+  border-color: var(--hijau);
+  color: white;
+}
+
+.section { display: none; }
+.section.tampil { display: block; }
+
+.kartu {
+  background: var(--bg);
+  border: 0.5px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+}
+.kartu-judul {
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--teks);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ikon {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.ikon-hijau { background: var(--hijau-muda); }
+.ikon-biru { background: var(--biru-muda); }
+.ikon-kuning { background: var(--kuning-muda); }
+.ikon-merah { background: var(--merah-muda); }
+
+.baris-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 7px 0;
+  border-bottom: 0.5px solid var(--border);
+  font-size: 13.5px;
+  gap: 12px;
+}
+.baris-info:last-child { border-bottom: none; padding-bottom: 0; }
+.label-info { color: var(--teks2); flex-shrink: 0; }
+.nilai-info { font-weight: 600; color: var(--teks); text-align: right; }
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.badge-hijau { background: var(--hijau-muda); color: var(--hijau-teks); }
+.badge-merah { background: var(--merah-muda); color: var(--merah); }
+.badge-kuning { background: var(--kuning-muda); color: var(--kuning); }
+.badge-biru { background: var(--biru-muda); color: var(--biru); }
+
+.grid2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.grid3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+.header {
+  width: 100%;
+}
+.kartu {
+  width: 100%;
+}
+
+.nav {
+  justify-content: center;
+}
+
+.vaksin-item {
+  background: var(--bg2);
+  border-radius: 10px;
+  padding: 12px 14px;
+  border: 0.5px solid var(--border);
+}
+.vaksin-nama {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--teks);
+  margin-bottom: 6px;
+}
+.vaksin-detail { font-size: 12px; color: var(--teks2); line-height: 1.6; }
+
+.suhu-boks {
+  border-radius: 12px;
+  padding: 14px 16px;
+  text-align: center;
+}
+.suhu-angka {
+  font-family: 'Nunito', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.suhu-label { font-size: 12px; font-weight: 600; }
+
+.langkah {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+  align-items: flex-start;
+}
+.langkah-nomor {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--hijau);
+  color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  flex-shrink: 0;
+  font-family: 'Nunito', sans-serif;
+}
+.langkah-isi p { font-size: 13.5px; color: var(--teks); line-height: 1.6; }
+.langkah-isi strong { color: var(--hijau-teks); font-weight: 700; }
+
+.peringatan {
+  background: var(--merah-muda);
+  border: 1px solid #F7C1C1;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: var(--merah);
+  line-height: 1.6;
+}
+.peringatan strong { font-weight: 700; }
+
+.tips {
+  background: var(--hijau-muda);
+  border: 1px solid #9FE1CB;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: var(--hijau-teks);
+  line-height: 1.6;
+}
+
+.tabel { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tabel th {
+  background: var(--hijau-muda);
+  color: var(--hijau-teks);
+  padding: 9px 12px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 12px;
+}
+.tabel td { padding: 9px 12px; border-bottom: 0.5px solid var(--border); color: var(--teks); }
+.tabel tr:last-child td { border-bottom: none; }
+.tabel tr:hover td { background: var(--bg2); }
+
+.footer {
+  text-align: center;
+  padding: 16px;
+  font-size: 12px;
+  color: var(--teks2);
+  margin-top: 8px;
+}
+</style>
+
+<div class="buku">
+  <div class="header">
+    <div class="header-badge">Kemenkes RI — Edisi 2024</div>
+    <h1>Buku Saku Digital<br>Pengelolaan Vaksin</h1>
+    <p>Panduan praktis petugas kesehatan — Cold chain, penyimpanan &amp; distribusi vaksin</p>
+  </div>
+
+  <div class="nav">
+    <button class="nav-btn aktif" onclick="ganti('rantai')">Rantai Dingin</button>
+    <button class="nav-btn" onclick="ganti('penyimpanan')">Penyimpanan</button>
+    <button class="nav-btn" onclick="ganti('vaksin')">Jenis Vaksin</button>
+    <button class="nav-btn" onclick="ganti('pencatatan')">Pencatatan</button>
+    <button class="nav-btn" onclick="ganti('darurat')">Penanganan Darurat</button>
+  </div>
+
+  <div id="rantai" class="section tampil">
+    <div class="kartu">
+      <div class="kartu-judul"><div class="ikon ikon-hijau">❄</div>Prinsip Rantai Dingin (Cold Chain)</div>
+      <p style="font-size:13.5px; color:var(--teks2); margin-bottom:14px; line-height:1.7;">Rantai dingin adalah sistem yang menjaga vaksin pada suhu yang tepat sejak diproduksi hingga diberikan kepada sasaran.</p>
+      <div class="baris-info"><span class="label-info">Suhu ideal vaksin</span><span class="nilai-info"><span class="badge badge-biru">+2°C s/d +8°C</span></span></div>
+      <div class="baris-info"><span class="label-info">Vaksin beku (OPV, BCG, Campak)</span><span class="nilai-info"><span class="badge badge-biru">-15°C s/d -25°C</span></span></div>
+      <div class="baris-info"><span class="label-info">Penanggung jawab</span><span class="nilai-info">Petugas Pengelola Vaksin</span></div>
+      <div class="baris-info"><span class="label-info">Monitoring suhu</span><span class="nilai-info">2× sehari (pagi &amp; sore)</span></div>
+      <div class="baris-info"><span class="label-info">Alat ukur</span><span class="nilai-info">Termometer + Freeze Tag</span></div>
+    </div>
+
+    <div class="grid3" style="margin-bottom:14px;">
+      <div class="suhu-boks" style="background:var(--biru-muda);">
+        <div class="suhu-angka" style="color:var(--biru);">+2°C</div>
+        <div class="suhu-label" style="color:var(--biru);">Batas Bawah</div>
+      </div>
+      <div class="suhu-boks" style="background:var(--hijau-muda);">
+        <div class="suhu-angka" style="color:var(--hijau);">+5°C</div>
+        <div class="suhu-label" style="color:var(--hijau-teks);">Suhu Ideal</div>
+      </div>
+      <div class="suhu-boks" style="background:var(--merah-muda);">
+        <div class="suhu-angka" style="color:var(--merah);">+8°C</div>
+        <div class="suhu-label" style="color:var(--merah);">Batas Atas</div>
+      </div>
+    </div>
+
+    <div class="kartu">
+      <div class="kartu-judul"><div class="ikon ikon-biru">🔗</div>Alur Distribusi Vaksin</div>
+      <div class="langkah">
+        <div class="langkah-nomor">1</div>
+        <div class="langkah-isi"><p><strong>Produsen/Bio Farma</strong> — Vaksin diproduksi &amp; disimpan di cold room (-20°C atau 2–8°C)</p></div>
+      </div>
+      <div class="langkah">
+        <div class="langkah-nomor">2</div>
+        <div class="langkah-isi"><p><strong>Dinkes Provinsi</strong> — Penerimaan, penyimpanan di cold room, distribusi ke Kab/Kota</p></div>
+      </div>
+      <div class="langkah">
+        <div class="langkah-nomor">3</div>
+        <div class="langkah-isi"><p><strong>Dinkes Kab/Kota</strong> — Cold room/lemari es, distribusi ke Puskesmas</p></div>
+      </div>
+      <div class="langkah">
+        <div class="langkah-nomor">4</div>
+        <div class="langkah-isi"><p><strong>Puskesmas</strong> — Lemari es vaksin, distribusi ke posyandu/fasyankes</p></div>
+      </div>
+      <div class="langkah">
+        <div class="langkah-nomor">5</div>
+        <div class="langkah-isi"><p><strong>Sasaran</strong> — Pemberian vaksin menggunakan vaccine carrier + ice pack</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="penyimpanan" class="section">
+    <div class="kartu">
+      <div class="kartu-judul"><div class="ikon ikon-hijau">🧊</div>Tata Cara Penyimpanan Vaksin</div>
+      <div class="langkah">
+        <div class="langkah-nomor">1</div>
+        <div class="langkah-isi"><p>Atur suhu lemari es <strong>2–8°C</strong> sebelum vaksin dimasukkan. Periksa thermometer.</p></div>
+      </div>
+      <div class="langkah">
+        <div class="langkah-nomor">2</div>
+        <div class="langkah-isi"><p>Vaksin sensitif beku (DPT, DT, TT, Hep B, DPT-HB-Hib, IPV) — letakkan di <strong>rak tengah</strong>.</p></div>
+      </div>
+      <div class="langkah">
+        <div class="langkah-nomor">3</div>
+        <div class="langkah-isi"><p>Vaksin tahan beku (BCG, Campak, Polio tetes) — letakkan di <strong>rak dekat evaporator</strong> (lebih dingin).</p></div>
+      </div>
+      <div class="langkah">
+        <div class="langkah-nomor">4</div>
+        <div class="langkah-isi"><p>Jaga jarak antar vaksin <strong>minimal 1–2 cm</strong> agar sirkulasi udara lancar.</p></div>
+      </div>
+      <div class="langkah">
+        <div class="langkah-nomor">5</div>
+        <div class="langkah-isi"><p>Gunakan prinsip <strong>FEFO (First Expiry First Out)</strong> — vaksin kadaluarsa lebih dekat dipakai lebih dulu.</p></div>
+      </div>
+      <div class="langkah">
+        <div class="langkah-nomor">6</div>
+        <div class="langkah-isi"><p>Jangan simpan makanan/minuman, sampel darah, atau obat lain di lemari vaksin.</p></div>
+      </div>
+    </div>
+
+    <div class="peringatan">
+      <strong>⚠ Larangan Keras:</strong> Jangan menyimpan vaksin DPT, DT, TT, Hep B, dan IPV di freezer atau dekat evaporator. Vaksin yang membeku akan rusak dan TIDAK boleh digunakan!
+    </div>
+
+    <div class="tips">
+      <strong>Tips:</strong> Pasang Freeze Tag pada setiap lemari es. Periksa indikator setiap hari. Jika indikator berubah merah/rusak, segera laporkan ke atasan dan jangan gunakan vaksin.
+    </div>
+
+    <div class="kartu">
+      <div class="kartu-judul"><div class="ikon ikon-kuning">📦</div>Vaccine Carrier (Kotak Vaksin Lapangan)</div>
+      <div class="baris-info"><span class="label-info">Kondisi sebelum digunakan</span><span class="nilai-info">Pre-cooling 12 jam</span></div>
+      <div class="baris-info"><span class="label-info">Jumlah ice pack standar</span><span class="nilai-info">4 buah per carrier</span></div>
+      <div class="baris-info"><span class="label-info">Lapisan ice pack</span><span class="nilai-info">Dibungkus kain/dikondisikan</span></div>
+      <div class="baris-info"><span class="label-info">Durasi efektif</span><span class="nilai-info">± 4–6 jam (tergantung suhu luar)</span></div>
+      <div class="baris-info"><span class="label-info">Catatan penting</span><span class="nilai-info">Jangan langsung kontak vaksin sensitif beku</span></div>
+    </div>
+  </div>
+
+  <div id="vaksin" class="section">
+    <div class="kartu">
+      <div class="kartu-judul"><div class="ikon ikon-biru">💉</div>Vaksin Program Imunisasi Nasional</div>
+      <div class="grid2" style="margin-top:4px;">
+        <div class="vaksin-item">
+          <div class="vaksin-nama">BCG</div>
+          <div class="vaksin-detail">
+            Suhu: 2–8°C / bisa beku<br>
+            Sasaran: Bayi 0–1 bulan<br>
+            VVM: 4<br>
+            Setelah dibuka: buang sisa sesi
+          </div>
+        </div>
+        <div class="vaksin-item">
+          <div class="vaksin-nama">Hepatitis B (HB0)</div>
+          <div class="vaksin-detail">
+            Suhu: 2–8°C (sensitif beku!)<br>
+            Sasaran: Bayi &lt;24 jam<br>
+            VVM: 2<br>
+            Setelah dibuka: multi-dose boleh
+          </div>
+        </div>
+        <div class="vaksin-item">
+          <div class="vaksin-nama">Polio tetes (OPV)</div>
+          <div class="vaksin-detail">
+            Suhu: -15 s/d -25°C atau 2–8°C<br>
+            Sasaran: Bayi 1–4 bulan<br>
+            VVM: 1 atau 2<br>
+            Setelah dibuka: pakai 2 minggu (2–8°C)
+          </div>
+        </div>
+        <div class="vaksin-item">
+          <div class="vaksin-nama">DPT-HB-Hib (Pentabio)</div>
+          <div class="vaksin-detail">
+            Suhu: 2–8°C (sensitif beku!)<br>
+            Sasaran: 2, 3, 4 bulan + booster<br>
+            VVM: 2<br>
+            Setelah dibuka: buang sisa sesi
+          </div>
+        </div>
+        <div class="vaksin-item">
+          <div class="vaksin-nama">Campak-Rubela (MR)</div>
+          <div class="vaksin-detail">
+            Suhu: 2–8°C / bisa beku<br>
+            Sasaran: 9 bulan, 18 bulan<br>
+            VVM: 2<br>
+            Setelah dibuka: buang sisa sesi
+          </div>
+        </div>
+        <div class="vaksin-item">
+          <div class="vaksin-nama">IPV (Polio suntik)</div>
+          <div class="vaksin-detail">
+            Suhu: 2–8°C (sensitif beku!)<br>
+            Sasaran: 4 bulan<br>
+            VVM: 2<br>
+            Setelah dibuka: multi-dose boleh
+          </div>
+        </div>
+        <div class="vaksin-item">
+          <div class="vaksin-nama">PCV</div>
+          <div class="vaksin-detail">
+            Suhu: 2–8°C (sensitif beku!)<br>
+            Sasaran: 2, 3, 12 bulan<br>
+            VVM: 2<br>
+            Setelah dibuka: buang sisa sesi
+          </div>
+        </div>
+        <div class="vaksin-item">
+          <div class="vaksin-nama">Rotavirus (RV)</div>
+          <div class="vaksin-detail">
+            Suhu: 2–8°C<br>
+            Sasaran: 2 &amp; 4 bulan<br>
+            VVM: 2<br>
+            Setelah dibuka: buang sisa sesi
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kartu">
+      <div class="kartu-judul"><div class="ikon ikon-kuning">🏷</div>Cara Membaca VVM (Vaccine Vial Monitor)</div>
+      <table class="tabel">
+        <thead><tr><th>Kondisi VVM</th><th>Tampilan</th><th>Tindakan</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-hijau">VVM 1 (A)</span></td><td>Kotak LEBIH terang dari lingkaran</td><td>Vaksin LAYAK digunakan</td></tr>
+          <tr><td><span class="badge badge-hijau">VVM 2 (B)</span></td><td>Kotak sama warna dengan lingkaran</td><td>Vaksin LAYAK, gunakan segera</td></tr>
+          <tr><td><span class="badge badge-kuning">VVM 3 (C)</span></td><td>Kotak LEBIH gelap dari lingkaran</td><td>Jangan digunakan, laporkan</td></tr>
+          <tr><td><span class="badge badge-merah">VVM 4 (D)</span></td><td>Kotak sangat gelap/hitam</td><td>RUSAK, buang &amp; laporkan segera</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="pencatatan" class="section">
+    <div class="kartu">
+      <div class="kartu-judul"><div class="ikon ikon-biru">📋</div>Dokumen Wajib Pengelolaan Vaksin</div>
+      <div class="baris-info"><span class="label-info">Buku stok vaksin</span><span class="nilai-info"><span class="badge badge-hijau">Wajib harian</span></span></div>
+      <div class="baris-info"><span class="label-info">Kartu stok per jenis vaksin</span><span class="nilai-info"><span class="badge badge-hijau">Wajib</span></span></div>
+      <div class="baris-info"><span class="label-info">Grafik suhu harian</span><span class="nilai-info"><span class="badge badge-hijau">2× sehari</span></span></div>
+      <div class="baris-info"><span class="label-info">Laporan pemakaian vaksin</span><span class="nilai-info"><span class="badge badge-biru">Bulanan</span></span></div>
+      <div class="baris-info"><span class="label-info">Laporan KIPI</span><span class="nilai-info"><span class="badge badge-merah">Segera jika ada</span></span></div>
+      <div class="baris-info"><span class="label-info">Berita acara vaksin rusak/kadaluarsa</span><span class="nilai-info"><span class="badge badge-kuning">Jika ada kejadian</span></span></div>
+    </div>
+
+    <div class="kartu">
+      <div class="kartu-judul"><div class="ikon ikon-hijau">🌡</div>Pencatatan Suhu Harian</div>
+      <div class="langkah">
+        <div class="langkah-nomor">1</div>
+        <div class="langkah-isi"><p>Baca termometer pagi (07.00–08.00) dan sore (13.00–14.00)</p></div>
+      </div>
+      <div class="langkah">
+        <div class="langkah-nomor">2</div>
+        <div class="langkah-isi"><p>Catat di grafik suhu harian — tandai dengan titik dan hubungkan</p></div>
+      </div>
+      <div class="langkah">
+        <div class="langkah-nomor">3</div>
+        <div class="langkah-isi"><p>Jika suhu melebihi batas: segera cek kondisi lemari es dan laporkan</p></div>
+      </div>
+      <div class="langkah">
+        <div class="langkah-nomor">4</div>
+        <div class="langkah-isi"><p>Arsipkan grafik suhu minimal <strong>5 tahun</strong></p></div>
+      </div>
+    </div>
+
+    <div class="kartu">
+      <div class="kartu-judul"><div class="ikon ikon-kuning">🔢</div>Rumus Kebutuhan Vaksin</div>
+      <div style="background:var(--bg2); border-radius:10px; padding:14px 16px; font-size:13.5px; line-height:1.8; color:var(--teks);">
+        <p><strong>Kebutuhan Vaksin</strong> = Jumlah Sasaran × Indeks Pemakaian</p>
+        <p style="margin-top:8px; color:var(--teks2); font-size:12.5px;">Indeks Pemakaian (IP) = Jumlah dosis dikeluarkan ÷ Jumlah dosis diberikan</p>
+        <p style="margin-top:6px; color:var(--teks2); font-size:12.5px;">IP ideal = 1,0–1,3 (semakin mendekati 1, semakin efisien)</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="darurat" class="section">
+    <div class="peringatan">
+      <strong>⚠ Listrik Mati:</strong> Jangan sering membuka lemari es. Lemari es yang tertutup rapat dapat bertahan 4–6 jam. Segera hubungi teknisi dan siapkan backup cold box.
+    </div>
+
+    <div class="kartu">
+      <div class="kartu-judul"><div class="ikon ikon-merah">⚡</div>Prosedur Gangguan Rantai Dingin</div>
+      <div class="langkah">
+        <div class="langkah-nomor">1</div>
+        <div class="langkah-isi"><p>Catat waktu kejadian dan suhu terakhir yang tercatat</p></div>
+      </div>
+      <div class="langkah">
+        <div class="langkah-nomor">2</div>
+        <div class="langkah-isi"><p>Pindahkan vaksin ke cold box/vaccine carrier dengan ice pack yang cukup</p></div>
+      </div>
+      <div class="langkah">
+        <div class="langkah-nomor">3</div>
+        <div class="langkah-isi"><p>Laporkan ke Kepala Puskesmas dan Dinkes Kab/Kota <strong>segera</strong></p></div>
+      </div>
+      <div class="langkah">
+        <div class="langkah-nomor">4</div>
+        <div class="langkah-isi"><p>Pisahkan vaksin yang diduga terpapar suhu tidak tepat — beri label "KARANTINA"</p></div>
+      </div>
+      <div class="langkah">
+        <div class="langkah-nomor">5</div>
+        <div class="langkah-isi"><p>Tunggu keputusan dinas kesehatan sebelum menggunakan vaksin yang dikarantina</p></div>
+      </div>
+      <div class="langkah">
+        <div class="langkah-nomor">6</div>
+        <div class="langkah-isi"><p>Buat berita acara kejadian secara tertulis</p></div>
+      </div>
+    </div>
+
+    <div class="kartu">
+      <div class="kartu-judul"><div class="ikon ikon-merah">🚨</div>Pelaporan KIPI (Kejadian Ikutan Pasca Imunisasi)</div>
+      <table class="tabel">
+        <thead><tr><th>Jenis KIPI</th><th>Waktu Lapor</th><th>Tujuan Laporan</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-merah">KIPI Serius</span></td><td>24 jam</td><td>Dinkes Kab/Kota + Pimpinan</td></tr>
+          <tr><td><span class="badge badge-kuning">KIPI Tidak Serius</span></td><td>Bulanan</td><td>Dinkes Kab/Kota</td></tr>
+          <tr><td><span class="badge badge-merah">Kematian/Kluster</span></td><td>Segera/Saat itu</td><td>Dinkes + Kemenkes</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="kartu">
+      <div class="kartu-judul"><div class="ikon ikon-kuning">📞</div>Kontak Darurat</div>
+      <div class="baris-info"><span class="label-info">Hotline Kemenkes</span><span class="nilai-info" style="color:var(--biru);">1500-567</span></div>
+      <div class="baris-info"><span class="label-info">Pelaporan KIPI Nasional</span><span class="nilai-info" style="color:var(--biru);">komnas-kipi.kemkes.go.id</span></div>
+      <div class="baris-info"><span class="label-info">BPOM (produk vaksin)</span><span class="nilai-info" style="color:var(--biru);">1500-533</span></div>
+    </div>
+
+    <div class="tips">
+      <strong>Ingat:</strong> Pengelolaan vaksin yang baik = imunisasi yang efektif = anak Indonesia terlindungi. Setiap dosis vaksin yang rusak adalah satu kesempatan perlindungan yang hilang.
+    </div>
+  </div>
+
+  <div class="footer">Buku Saku Digital Pengelolaan Vaksin · Berdasarkan Pedoman Teknis Imunisasi Kemenkes RI</div>
+</div>
+
+<script>
+function ganti(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('tampil'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('aktif'));
+  document.getElementById(id).classList.add('tampil');
+  event.target.classList.add('aktif');
+}
+</script>
+
+</body>
+</html>
+<style>
